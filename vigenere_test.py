@@ -7,6 +7,11 @@ data = [
             'P': 'The imitation game',
             'K': 'cipher',
             'C': 'VPTPQZVIIPSEIIBL'
+        },
+        {
+            'P': 'The',
+            'K': 'cipher',
+            'C': 'VPT'
         }
     ]
 

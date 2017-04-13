@@ -86,7 +86,7 @@ def dekripsi(C='', K=''):
     else:
         # Tidak perlu diulang secara periodik
         ik = 0
-        for huruf in P:
+        for huruf in C:
             kunci = K[ik]
             # Ci-Kj
             hasil_plain = ((huruf_ke_angka[huruf] 

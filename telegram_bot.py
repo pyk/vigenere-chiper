@@ -16,7 +16,6 @@ app = Flask(__name__)
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', 'defaulttoken')
 TELEGRAM_WEBHOOK_URL = os.getenv('TELEGRAM_WEBHOOK_URL', 'webhook-url')
 bot = telepot.Bot(TELEGRAM_TOKEN)
-bot.setWebhook(TELEGRAM_WEBHOOK_URL)
 update_queue = Queue()
 
 # Telegram bot handler
@@ -31,4 +30,5 @@ def telegram_webhook():
     return 'OK'
 
 if __name__ == '__main__':
+    bot.setWebhook(TELEGRAM_WEBHOOK_URL)
     app.run(host='0.0.0.0', debug=True, use_reloader=True)

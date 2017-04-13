@@ -77,7 +77,7 @@ def dekripsi(C='', K=''):
                 ik = 0
                 kunci = K[ik]
 
-            # Ci = Pi+Kj
+            # Pi = Ci-Kj
             hasil_plain = ((huruf_ke_angka[huruf] 
                             - huruf_ke_angka[kunci]) % 26)
             huruf_plain = angka_ke_huruf[hasil_plain]
@@ -88,7 +88,7 @@ def dekripsi(C='', K=''):
         ik = 0
         for huruf in P:
             kunci = K[ik]
-            # Pi+Kj
+            # Ci-Kj
             hasil_plain = ((huruf_ke_angka[huruf] 
                             - huruf_ke_angka[kunci]) % 26)
             huruf_plain = angka_ke_huruf[hasil_plain]

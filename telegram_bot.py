@@ -91,7 +91,7 @@ def handler(message):
             # Check kuncinya
             if kunci.isalpha():
                 set_vigenere_key(user_id, kunci)
-                pesan = "Nice! Kunci Vigenere ciphernya berhasil diatur ke: *{}*".format(key)
+                pesan = "Nice! Kunci Vigenere ciphernya berhasil diatur ke: *{}*".format(kunci)
                 bot.sendMessage(chat_id, pesan, parse_mode='Markdown')
                 set_chat_status(chat_id, 'normal')
             else:

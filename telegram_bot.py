@@ -47,7 +47,7 @@ def handler(message):
             return 'OK'
         else:
             # Setup kunci user dulu
-            bot.asnwerInlineQuery(query_id, [], 
+            bot.answerInlineQuery(query_id, [], 
                         switch_pm_text='Tentukan kunci Vigenere cipher',
                         switch_pm_parameter='setkunci')
             print('DEBUG: inline query set key answered')

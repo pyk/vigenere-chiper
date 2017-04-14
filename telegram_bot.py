@@ -115,6 +115,7 @@ def handler(message):
             kunci = get_vigenere_key(user_id)
             if kunci:
                 plain_teks = message_text.split(' ')[1:]
+                plain_teks = ' '.join(plain_teks)
                 chiper_teks = vigenere.enkripsi(P=plain_teks, K=kunci)
                 bot.sendMessage(chat_id, chiper_teks)
                 set_chat_status(chat_id, 'normal')
@@ -126,6 +127,7 @@ def handler(message):
             kunci = get_vigenere_key(user_id)
             if kunci:
                 chiper_teks = message_text.split(' ')[1:]
+                chiper_teks = ' '.join(chiper_teks)
                 plain_teks = vigenere.dekripsi(C=chiper_teks, K=kunci)
                 bot.sendMessage(chat_id, plain_teks)
                 set_chat_status(chat_id, 'normal')

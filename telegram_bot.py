@@ -96,7 +96,7 @@ def handler(message):
                 set_chat_status(chat_id, 'normal')
             else:
                 # Ingatkan jika kuncinya tidak valid
-                pesan = "Hey {}, kunci yang kamu kirimkan tidak valid. Pastikan hanya huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
+                pesan = "Hey {}, kunci yang kamu kirimkan tidak valid. Pastikan hanya huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol. Sekarang kirim kunci yang valid ya".format(first_name)
                 bot.sendMessage(chat_id, pesan)
                 set_chat_status(chat_id, 'menunggu_kunci')
 

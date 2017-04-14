@@ -119,19 +119,17 @@ def handler(message):
             # Check kuncinya
             if kunci.isalpha():
                 set_vigenere_key(user_id, kunci)
-                pesan = """
-                Nice! Kunci Vigenere ciphernya berhasil diatur ke: *{}*
-
-                Sekarang kamu bisa melakukan enkripsi pesan dengan cara
-                mention @vigenerebot lalu tuliskan plain teks mu, nanti
-                akan muncul hasil enkripsinya, klik hasil enkripsinya
-                untuk mengirim pesan terenkripsinya.
-
-                Untuk dekripsi pesan, klik tombol "Dekripsi pesan" di bawah
-                chat yang terenkripsi. Aku akan mengirimkan hasil dekripsinya
-                ke kamu. Pastikan kuncinya udah bener, atau gak pesannya akan
-                tidak terbaca.
-                """.format(kunci)
+                pesan = (
+                    "Nice! Kunci Vigenere ciphernya berhasil diatur ke: *{}*\n\n"
+                    "Sekarang kamu bisa melakukan enkripsi pesan dengan "
+                    "cara mention @vigenerebot lalu tuliskan plain teks mu, "
+                    "nanti akan muncul hasil enkripsinya, klik hasil "
+                    "enkripsinya untuk mengirim pesan terenkripsinya.\n"
+                    "Untuk dekripsi pesan, klik tombol \"Dekripsi pesan\" "
+                    "di bawah chat yang terenkripsi. Aku akan mengirimkan "
+                    "hasil dekripsinya ke kamu.\n"
+                    "Pastikan kuncinya udah benar. Jika kunci salah maka "
+                    "hasil dekripsi pesan tidak terbaca.").format(kunci)
                 bot.sendMessage(chat_id, pesan, parse_mode='Markdown')
                 set_chat_status(chat_id, 'normal')
             else:

@@ -33,19 +33,23 @@ def get_vigenere_key(user_id):
 def handler(message):
     # Answer inline query
     if message['query'] == 'inline query':
+        print('DEBUG: answer inline_query')
         query_id = message['id']
+        print('DEBUG: query_id:', query_id)
         # Cek dulu apakah user sudah menentukan kuncinya
         user_id = message['from']['id']
         user_key = get_vigenere_key(user_id)
+        print('DEBUG: user_id:', user_id)
+        print('DEBUG: user_key:', user_key)
         if user_key:
             # Answer inline query here
             return 'OK'
         else:
             # Setup kunci user dulu
-            bot.asnwerInlineQuery(query_id, None, 
+            bot.asnwerInlineQuery(query_id, [], 
                         switch_pm_text='Tentukan kunci Vigenere cipher',
                         switch_pm_parameter='setkunci')
-
+            print('DEBUG: inline query set key answered')
     print("DEBUG: message:", message)
 
 bot.message_loop(handler, source=update_queue)

@@ -48,9 +48,18 @@ def handler(message):
         else:
             # Setup kunci user dulu
             bot.answerInlineQuery(query_id, [], 
-                        switch_pm_text='Tentukan kunci Vigenere cipher',
+                        switch_pm_text='Tentukan kunci Vigénere cipher',
                         switch_pm_parameter='setkunci')
-            print('DEBUG: inline query set key answered')
+    elif 'text' in message:
+        message_text = message['text']
+        if message_text == '/start setkunci':
+            chat_id = message['chat']['id']
+            message_id = message['message_id']
+            # Answer dengan masukkan kunci
+            bot.sendMessage(chat_id, 
+                    'OK. Kirimkan kunci Vigénere cipher nya ke aku boz',
+                    reply_to_message_id=message_id)
+            print("DEBUG: menunggu reply kunci vigenere chipernya")
     print("DEBUG: message:", message)
 
 bot.message_loop(handler, source=update_queue)

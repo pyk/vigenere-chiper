@@ -32,9 +32,10 @@ def get_vigenere_key(user_id):
 # Telegram bot handler
 def handler(message):
     # Answer inline query
-    if message['query'] == 'inline query':
+    if 'query' in message:
         print('DEBUG: answer inline_query')
         query_id = message['id']
+        query_text = message['query']
         print('DEBUG: query_id:', query_id)
         # Cek dulu apakah user sudah menentukan kuncinya
         user_id = message['from']['id']

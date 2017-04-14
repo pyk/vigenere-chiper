@@ -32,6 +32,10 @@ def get_vigenere_key(user_id):
     key = rds.get(redis_key)
     return key
 
+def del_vigenere_key(user_id):
+    redis_key = 'vigenere_key/{}'.format(user_id)
+    rds.delete(redis_key)
+
 def set_vigenere_key(user_id, key):
     redis_key = 'vigenere_key/{}'.format(user_id)
     key = rds.set(redis_key, key)
@@ -70,15 +74,39 @@ def handler(message):
                         switch_pm_parameter='setkunci')
     elif 'entities' in message:
         message_text = message['text']
+        chat_id = message['chat']['id']
+        message_id = message['message_id']
+        first_name = message['from']['first_name']
+        user_id = message['from']['id']
+        
+        # Setup kunci baru
         if message_text == '/start setkunci':
-            chat_id = message['chat']['id']
-            message_id = message['message_id']
-            first_name = message['from']['first_name']
             # Answer dengan masukkan kunci
             pesan = "Hey {}, kirimkan kunci Vigénere cipher nya ke aku ya :). Kuncinya harus huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
             bot.sendMessage(chat_id, pesan)
             set_chat_status(chat_id, 'menunggu_kunci')
-            print("DEBUG: menunggu reply kunci vigenere chipernya")
+
+        # Setup kunci baru
+        if message_text == '/buatkunci':
+            # Answer dengan masukkan kunci
+            pesan = "Hey {}, kirimkan kunci Vigénere cipher nya ke aku ya :). Kuncinya harus huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
+            bot.sendMessage(chat_id, pesan)
+            set_chat_status(chat_id, 'menunggu_kunci')
+
+        # Menghapus kunci
+        if message_text == '/hapuskunci':
+            # Cek apakah kuncinya ada
+            kunci = get_vigenere_key(user_id)
+            if kunci:
+                del_vigenere_key(user_id)
+                pesan = "Hey {}, kuncimu yang lama dah aku hapus ya. Untuk membuat kunci baru tinggal kirim perintah /buatkunci ke aku.".format(first_name)
+                bot.sendMessage(chat_id, pesan)
+                set_chat_status(chat_id, 'normal')
+            else:
+                pesan = "Hey {}, kamu belum punya kunci. Kirim perintah /buatkunci untuk membuat kunci baru.".format(first_name)
+                bot.sendMessage(chat_id, pesan)
+                set_chat_status(chat_id, 'normal')
+
     elif 'text' in message:
         # Cek statusnya
         chat_id = message['chat']['id']
@@ -99,7 +127,6 @@ def handler(message):
                 pesan = "Hey {}, kunci yang kamu kirimkan tidak valid. Pastikan hanya huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol. Sekarang kirim kunci yang valid ya".format(first_name)
                 bot.sendMessage(chat_id, pesan)
                 set_chat_status(chat_id, 'menunggu_kunci')
-
 
     print("DEBUG: message:", message)
 

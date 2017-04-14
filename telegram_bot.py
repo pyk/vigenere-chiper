@@ -8,6 +8,8 @@ from flask import Flask, request
 import telepot
 import redis
 
+import vigenere
+
 try:
     from Queue import Queue
 except ImportError:
@@ -107,6 +109,31 @@ def handler(message):
                 bot.sendMessage(chat_id, pesan)
                 set_chat_status(chat_id, 'normal')
 
+        # Enkripsi dan dekripsi
+        perintah_awal = message_text.split(' ')[0]
+        if perintah_awal == '/enkripsi':
+            kunci = get_vigenere_key(user_id)
+            if kunci:
+                plain_teks = message_text.split(' ')[1:]
+                chiper_teks = vigenere.enkripsi(P=plain_teks, K=kunci)
+                bot.sendMessage(chat_id, chiper_teks)
+                set_chat_status(chat_id, 'normal')
+            else:
+                pesan = "Hey {}, kamu belum punya kunci. Kirim perintah /buatkunci untuk membuat kunci baru.".format(first_name)
+                bot.sendMessage(chat_id, pesan)
+                set_chat_status(chat_id, 'normal')
+        if perintah_awal == '/dekripsi':
+            kunci = get_vigenere_key(user_id)
+            if kunci:
+                chiper_teks = message_text.split(' ')[1:]
+                plain_teks = vigenere.dekripsi(P=chiper_teks, K=kunci)
+                bot.sendMessage(chat_id, plain_teks)
+                set_chat_status(chat_id, 'normal')
+            else:
+                pesan = "Hey {}, kamu belum punya kunci. Kirim perintah /buatkunci untuk membuat kunci baru.".format(first_name)
+                bot.sendMessage(chat_id, pesan)
+                set_chat_status(chat_id, 'normal')
+
     elif 'text' in message:
         # Cek statusnya
         chat_id = message['chat']['id']
@@ -119,17 +146,18 @@ def handler(message):
             # Check kuncinya
             if kunci.isalpha():
                 set_vigenere_key(user_id, kunci)
+                chiper_teks = vigenere.enkripsi(P='pesan rahasia buat kamu',
+                                                K=kunci)
                 pesan = (
                     "Nice! Kunci Vigenere ciphernya berhasil diatur ke: *{}*\n\n"
                     "Sekarang kamu bisa melakukan enkripsi pesan dengan "
-                    "cara mention @vigenerebot lalu tuliskan plain teks mu, "
-                    "nanti akan muncul hasil enkripsinya, klik hasil "
-                    "enkripsinya untuk mengirim pesan terenkripsinya.\n"
-                    "Untuk dekripsi pesan, klik tombol \"Dekripsi pesan\" "
-                    "di bawah chat yang terenkripsi. Aku akan mengirimkan "
-                    "hasil dekripsinya ke kamu.\n"
-                    "Pastikan kuncinya udah benar. Jika kunci salah maka "
-                    "hasil dekripsi pesan tidak terbaca.").format(kunci)
+                    "cara mengirimkan perintah /enkripsi diikuti dengan "
+                    "plain teks yang ingin di enkripsi. Contohnya "
+                    "seperti ini:\n\n"
+                    "/enkripsi pesan rahasia buat kamu\n\n"
+                    "Lalu untuk dekripsinya menggunakan perintah /dekripsi "
+                    "yang dikuti oleh chiper teks. Contohnya:\n\n"
+                    "/dekripsi {}").format(kunci, chiper_teks)
                 bot.sendMessage(chat_id, pesan, parse_mode='Markdown')
                 set_chat_status(chat_id, 'normal')
             else:

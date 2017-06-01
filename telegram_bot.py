@@ -67,7 +67,12 @@ def handler(message):
         print('DEBUG: user_id:', user_id)
         print('DEBUG: user_key:', user_key)
         if user_key:
-            cipher_text = vigenere.enkripsi(P=query_text, K=user_key)
+            cipher_text = ''
+            try:
+                cipher_text = vigenere.enkripsi(P=query_text, K=user_key)
+            except Exception as err:
+                print('DEBUG: gagal enkripsi:', err)
+                cipher_text = "Maaf, terjadi kesalahan saat melakukan enkripsi. Pastikan plain teks hanya huruf abjad saja."
             # Jika kunci udah ke set maka kirim hasil enkripsinya
             reply_data = {
                 'type': 'photo',

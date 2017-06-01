@@ -83,6 +83,12 @@ def handler(message):
                 'photo_height': 256,
                 'input_message_content': {
                     'message_text': cipher_text
+                },
+                'reply_markup': {
+                    'inline_keyboard': [{
+                        'text': 'Dekripsi cipher teks',
+                        'callback_data': cipher_text
+                    }]
                 }
             }
             bot.answerInlineQuery(query_id, [reply_data],

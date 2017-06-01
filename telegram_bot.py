@@ -67,13 +67,38 @@ def handler(message):
         print('DEBUG: user_id:', user_id)
         print('DEBUG: user_key:', user_key)
         if user_key:
-            # Answer inline query here
-            return 'OK'
+            cipher_text = ''
+            try:
+                cipher_text = vigenere.enkripsi(P=query_text, K=user_key)
+            except Exception as err:
+                print('DEBUG: gagal enkripsi:', err)
+                cipher_text = "Maaf, terjadi kesalahan saat melakukan enkripsi. Pastikan plain teks hanya huruf abjad saja."
+            # Jika kunci udah ke set maka kirim hasil enkripsinya
+            reply_data = {
+                'type': 'photo',
+                'id': query_id,
+                'photo_url': 'http://i.imgur.com/GpfBHuF.jpg',
+                'thumb_url': 'http://i.imgur.com/GpfBHuF.jpg',
+                'photo_width': 256,
+                'photo_height': 256,
+                'input_message_content': {
+                    'message_text': cipher_text
+                },
+                'reply_markup': {
+                    'inline_keyboard': [[{
+                        'text': 'Dekripsi cipher teks',
+                        'callback_data': cipher_text
+                    }]]
+                }
+            }
+            bot.answerInlineQuery(query_id, [reply_data],
+                        cache_time=None,
+                        is_personal=None)
         else:
             # Setup kunci user dulu
             bot.answerInlineQuery(query_id, [], 
                         switch_pm_text='Tentukan kunci Vigénere cipher',
-                        switch_pm_parameter='setkunci')
+                        switch_pm_parameter='buatkunci')
     elif 'entities' in message:
         message_text = message['text']
         chat_id = message['chat']['id']
@@ -89,7 +114,8 @@ def handler(message):
             set_chat_status(chat_id, 'normal')
 
         # Setup kunci baru
-        if message_text == '/buatkunci':
+        if (message_text == '/buatkunci' or 
+            message_text == '/start buatkunci'):
             # Answer dengan masukkan kunci
             pesan = "Hey {}, kirimkan kunci Vigénere cipher nya ke aku ya :). Kuncinya harus huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
             bot.sendMessage(chat_id, pesan)
@@ -167,6 +193,29 @@ def handler(message):
                 pesan = "Hey {}, kunci yang kamu kirimkan tidak valid. Pastikan hanya huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol. Sekarang kirim kunci yang valid ya".format(first_name)
                 bot.sendMessage(chat_id, pesan)
                 set_chat_status(chat_id, 'menunggu_kunci')
+    elif 'inline_message_id' in message:
+        # Ketika user mengklik tombol dekripsi pada chat yang terenkripsi
+        user_id = message['from']['id']
+        user_firstname = message['from']['first_name']
+        cipher_text = message['data']
+        # chat_id = '@{}'.format(message['from']['username'])
+        chat_id = user_id
+
+        # Cek apakah user udah punya kunci
+        user_key = get_vigenere_key(user_id)
+        if user_key:
+            # Kirim hasil dekripsi ke personal chat
+            plain_text = vigenere.dekripsi(C=cipher_text, K=user_key)
+            pesan = (
+                "Hey {name}! ini hasil dekripsinya menggunakan kunci"
+                "\"{K}\":"
+                "\n{P}\n\n"
+                "Kamu bisa merubah kuncinya menggunakan perintah /buatkunci."
+                ).format(name=user_firstname, K=user_key, P=plain_text)
+            bot.sendMessage(chat_id, pesan)
+        else:
+            pesan = "Hey {}, kamu belum punya kunci. Jadi belum bisa dekripsi pesan ini: \"{}\".\nKirim perintah /buatkunci untuk membuat kunci baru.".format(user_firstname, cipher_text)
+            bot.sendMessage(chat_id, pesan)
 
     print("DEBUG: message:", message)
 

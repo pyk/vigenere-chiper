@@ -14,7 +14,8 @@ angka_ke_huruf = [
 # dan kunci K
 def enkripsi(P='', K=''):
     # Menghilangkan huruf spasi
-    P = P.replace(' ', '').lower()
+    P = P.lower()
+    K = K.lower()
 
     # Memasangkan huruf kunci dan plain teksnya
     # Jika panjang P lebih besar dari panjang K maka K akan diulang
@@ -25,6 +26,9 @@ def enkripsi(P='', K=''):
     if len(P) > len(K):
         ik = 0
         for huruf in P:
+            if huruf == ' ': 
+                cipher_teks.append(' ')
+                continue
             # Kita ulang secara periodik
             kunci = ''
             if ik < len(K):
@@ -59,6 +63,7 @@ def enkripsi(P='', K=''):
 def dekripsi(C='', K=''):
     # Transformasi cipher teks ke huruf kecil
     C = C.lower()
+    K = K.lower()
 
     # Memasangkan huruf kunci dan cipher teksnya
     # Jika panjang C lebih besar dari panjang K maka K akan diulang
@@ -69,6 +74,9 @@ def dekripsi(C='', K=''):
     if len(C) > len(K):
         ik = 0
         for huruf in C:
+            if huruf == ' ':
+                plain_teks.append(' ')
+                continue
             # Kita ulang secara periodik
             kunci = ''
             if ik < len(K):

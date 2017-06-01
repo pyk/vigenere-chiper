@@ -197,7 +197,8 @@ def handler(message):
         user_id = message['from']['id']
         user_firstname = message['from']['first_name']
         cipher_text = message['data']
-        chat_id = '@{}'.format(message['from']['username'])
+        # chat_id = '@{}'.format(message['from']['username'])
+        chat_id = user_id
 
         # Cek apakah user udah punya kunci
         user_key = get_vigenere_key(user_id)

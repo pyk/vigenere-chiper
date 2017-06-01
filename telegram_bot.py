@@ -78,6 +78,7 @@ def handler(message):
                 'type': 'photo',
                 'id': query_id,
                 'photo_url': 'http://i.imgur.com/GpfBHuF.jpg',
+                'thumb_url': 'http://i.imgur.com/GpfBHuF.jpg',
                 'photo_width': 256,
                 'photo_height': 256,
                 'input_message_content': {

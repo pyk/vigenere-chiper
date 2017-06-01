@@ -85,10 +85,10 @@ def handler(message):
                     'message_text': cipher_text
                 },
                 'reply_markup': {
-                    'inline_keyboard': [{
+                    'inline_keyboard': [[{
                         'text': 'Dekripsi cipher teks',
                         'callback_data': cipher_text
-                    }]
+                    }]]
                 }
             }
             bot.answerInlineQuery(query_id, [reply_data],

@@ -192,6 +192,27 @@ def handler(message):
                 pesan = "Hey {}, kunci yang kamu kirimkan tidak valid. Pastikan hanya huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol. Sekarang kirim kunci yang valid ya".format(first_name)
                 bot.sendMessage(chat_id, pesan)
                 set_chat_status(chat_id, 'menunggu_kunci')
+    elif 'inline_message_id' in message:
+        # Ketika user mengklik tombol dekripsi pada chat yang terenkripsi
+        user_id = message['from']['id']
+        user_firstname = message['from']['first_name']
+        cipher_text = message['data']
+        chat_id = '@{}'.format(message['from']['username'])
+
+        # Cek apakah user udah punya kunci
+        user_key = get_vigenere_key(user_id)
+        if user_key:
+            # Kirim hasil dekripsi ke personal chat
+            plain_text = vigenere.dekripsi(C=cipher_text, K=user_key)
+            pesan = (
+                "Hey {name}, ini hasil dekripsinya menggunakan kunci {K}:\n"
+                "\n{P}\n\n"
+                "Kamu bisa merubah kuncinya menggunakan perintah /buatkunci."
+                ).format(name=user_firstname, P=plain_text)
+            bot.sendMessage(chat_id, pesan)
+        else:
+            pesan = "Hey {}, kamu belum punya kunci. Jadi belum bisa dekripsi pesan ini: \"{}\".\nKirim perintah /buatkunci untuk membuat kunci baru.".format(first_name, cipher_text)
+            bot.sendMessage(chat_id, pesan)
 
     print("DEBUG: message:", message)
 

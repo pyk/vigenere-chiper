@@ -206,7 +206,8 @@ def handler(message):
             # Kirim hasil dekripsi ke personal chat
             plain_text = vigenere.dekripsi(C=cipher_text, K=user_key)
             pesan = (
-                "Hey {name}, ini hasil dekripsinya menggunakan kunci {K}:\n"
+                "Hey {name}! ini hasil dekripsinya menggunakan kunci"
+                "\"{K}\":"
                 "\n{P}\n\n"
                 "Kamu bisa merubah kuncinya menggunakan perintah /buatkunci."
                 ).format(name=user_firstname, K=user_key, P=plain_text)

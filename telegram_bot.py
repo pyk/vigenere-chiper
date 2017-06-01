@@ -67,8 +67,18 @@ def handler(message):
         print('DEBUG: user_id:', user_id)
         print('DEBUG: user_key:', user_key)
         if user_key:
-            # Answer inline query here
-            return 'OK'
+            # Jika kunci udah ke set maka kirim hasil enkripsinya
+            reply_data = {
+                'type': 'article',
+                'id': query_id,
+                'title': 'TEST TAMPAK KAYA GIMANA YA?',
+                'input_message_content': {
+                    'message_text': 'Unch unch tampil kaya gimana ya'
+                }
+            }
+            bot.answerInlineQuery(query_id, [reply_data],
+                        cache_time=None,
+                        is_personal=None)
         else:
             # Setup kunci user dulu
             bot.answerInlineQuery(query_id, [], 

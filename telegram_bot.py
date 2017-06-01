@@ -67,13 +67,16 @@ def handler(message):
         print('DEBUG: user_id:', user_id)
         print('DEBUG: user_key:', user_key)
         if user_key:
+            cipher_text = vigenere.enkripsi(P=query_text, K=user_key)
             # Jika kunci udah ke set maka kirim hasil enkripsinya
             reply_data = {
-                'type': 'article',
+                'type': 'photo',
                 'id': query_id,
-                'title': 'TEST TAMPAK KAYA GIMANA YA?',
+                'photo_url': 'http://i.imgur.com/GpfBHuF.jpg',
+                'photo_width': 256,
+                'photo_height': 256,
                 'input_message_content': {
-                    'message_text': 'Unch unch tampil kaya gimana ya'
+                    'message_text': cipher_text
                 }
             }
             bot.answerInlineQuery(query_id, [reply_data],

@@ -98,7 +98,7 @@ def handler(message):
             # Setup kunci user dulu
             bot.answerInlineQuery(query_id, [], 
                         switch_pm_text='Tentukan kunci Vigénere cipher',
-                        switch_pm_parameter='setkunci')
+                        switch_pm_parameter='buatkunci')
     elif 'entities' in message:
         message_text = message['text']
         chat_id = message['chat']['id']
@@ -114,7 +114,8 @@ def handler(message):
             set_chat_status(chat_id, 'normal')
 
         # Setup kunci baru
-        if message_text == '/buatkunci':
+        if (message_text == '/buatkunci' or 
+            message_text == '/start buatkunci'):
             # Answer dengan masukkan kunci
             pesan = "Hey {}, kirimkan kunci Vigénere cipher nya ke aku ya :). Kuncinya harus huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
             bot.sendMessage(chat_id, pesan)

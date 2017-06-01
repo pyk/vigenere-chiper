@@ -213,7 +213,7 @@ def handler(message):
                 ).format(name=user_firstname, K=user_key, P=plain_text)
             bot.sendMessage(chat_id, pesan)
         else:
-            pesan = "Hey {}, kamu belum punya kunci. Jadi belum bisa dekripsi pesan ini: \"{}\".\nKirim perintah /buatkunci untuk membuat kunci baru.".format(first_name, cipher_text)
+            pesan = "Hey {}, kamu belum punya kunci. Jadi belum bisa dekripsi pesan ini: \"{}\".\nKirim perintah /buatkunci untuk membuat kunci baru.".format(user_firstname, cipher_text)
             bot.sendMessage(chat_id, pesan)
 
     print("DEBUG: message:", message)

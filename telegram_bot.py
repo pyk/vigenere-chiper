@@ -208,7 +208,7 @@ def handler(message):
                 "Hey {name}, ini hasil dekripsinya menggunakan kunci {K}:\n"
                 "\n{P}\n\n"
                 "Kamu bisa merubah kuncinya menggunakan perintah /buatkunci."
-                ).format(name=user_firstname, P=plain_text)
+                ).format(name=user_firstname, K=user_key, P=plain_text)
             bot.sendMessage(chat_id, pesan)
         else:
             pesan = "Hey {}, kamu belum punya kunci. Jadi belum bisa dekripsi pesan ini: \"{}\".\nKirim perintah /buatkunci untuk membuat kunci baru.".format(first_name, cipher_text)

@@ -82,11 +82,11 @@ def handler(message):
         user_id = message['from']['id']
         
         # Setup kunci baru
-        if message_text == '/start setkunci':
+        if message_text == '/start':
             # Answer dengan masukkan kunci
-            pesan = "Hey {}, kirimkan kunci Vigénere cipher nya ke aku ya :). Kuncinya harus huruf abjad aja ya, tanpa spasi, nomor dan simbol-simbol.".format(first_name)
+            pesan = "Hey {name}! Senang bisa chat denganmu. {name} bisa mention aku di chat mana aja untuk memulai enkripsi pesan yang ingin {name} kirim.".format(name=first_name)
             bot.sendMessage(chat_id, pesan)
-            set_chat_status(chat_id, 'menunggu_kunci')
+            set_chat_status(chat_id, 'normal')
 
         # Setup kunci baru
         if message_text == '/buatkunci':
